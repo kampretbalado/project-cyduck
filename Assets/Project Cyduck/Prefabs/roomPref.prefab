@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114561125052504416}
   - component: {fileID: 114940696602158058}
   - component: {fileID: 114279097425339210}
+  - component: {fileID: 114417243095487898}
   m_Layer: 5
   m_Name: roomPref
   m_TagString: Untagged
@@ -82,6 +83,20 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114417243095487898
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1496521554046108}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 4, y: 4}
+  m_UseGraphicAlpha: 1
 --- !u!114 &114561125052504416
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -120,8 +135,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 837ee01883f9f224dadfb18884e632ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manager: {fileID: 0}
-  stateId: 0
+  defaultRoomDescription: {fileID: 0}
+  roomDescription: {fileID: 0}
+  state: 0
 --- !u!222 &222930223758427540
 CanvasRenderer:
   m_ObjectHideFlags: 1

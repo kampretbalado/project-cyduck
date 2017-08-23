@@ -1,5 +1,5 @@
 ﻿public enum RoomStates{
-		mati,
-		hidup,
-		kriminal
+		OFF,
+		NORMAL,
+		CRIME
 }

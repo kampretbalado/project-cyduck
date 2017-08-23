@@ -5,52 +5,49 @@ using UnityEngine.UI;
 
 public class RoomBehaviour : MonoBehaviour {
 
-	public GameManager manager;
-	public RoomStates state = RoomStates.mati;
-	private float invokeMin = 2f;
-	private float invokeMax = 10f;
+	private GameManager gameManager;
+	private ScoreManager scoreManager;
+	private TimeManager timeManager;
+	public RoomDescription defaultRoomDescription;
+	public RoomDescription roomDescription;
+	public RoomStates state;
+
+	//private float invokeMin = 2f;
+	//private float invokeMax = 10f;
 	private Image image;
 
-	// Use this for initialization
-	void Start () {
-		image = this.GetComponent<Image> ();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		this.invokeMax = manager.invokeMax;
-		this.invokeMin = manager.invokeMin;
-	}
+	void Awake() {
+		GameObject manager = GameObject.FindGameObjectWithTag ("GameController");
+		this.gameManager = manager.GetComponent<GameManager> ();
+		this.scoreManager = manager.GetComponent<ScoreManager> ();
+		this.timeManager = manager.GetComponent<TimeManager> ();
 
+		this.image = this.GetComponent<Image> ();
+		this.state = RoomStates.OFF;
+	}
 
 	public void Selected(){
-		if (this.manager.selectedName == this.gameObject.name) {
-			this.DeactivateSelected ();			
+		if (this.gameManager.selectedDescription != null && this.gameManager.selectedDescription.roomName.Equals(this.roomDescription.roomName)) {
+			this.DeactivateSelected ();
 		}
-		this.manager.Select (state, this.gameObject.name);
+		this.gameManager.Select (this);
 	}
 
-	public void ActivateState(){
-		this.state = (RoomStates) Random.Range (1, 3);
+	public void ActivateState(float invokeMin, float invokeMax, RoomDescription description){
+		if (description.isCrime)
+			this.state = RoomStates.CRIME;
+		else
+			this.state = RoomStates.NORMAL;
 
-		if (manager.criminalCount == 0)
-			this.state = RoomStates.kriminal;
-
-		if (this.state == RoomStates.kriminal)
-			manager.criminalCount++;
+		this.roomDescription = description;
+		this.image.color = Color.yellow;
 		
-		if (this.state == RoomStates.hidup) {
-			image.color = new Color (0.0f, 1.0f, 0.0f);
-		} else {
-			image.color = new Color (1.0f, 0.0f, 1.0f);
-		}
-		manager.lightsCount++;
 		Invoke ("DeactivateStateAuto", Random.Range (invokeMin, invokeMax));
 	}
 
 
 	void DeactivateStateAuto(){
-		if (this.state == RoomStates.kriminal) {
+		if (this.state == RoomStates.CRIME) {
 			//TODO combo beak here
 		}
 
@@ -58,21 +55,26 @@ public class RoomBehaviour : MonoBehaviour {
 	}
 
 	void DeactivateSelected(){
-		if (this.state == RoomStates.kriminal) {
+		if (this.state == RoomStates.CRIME) {
 			//TODO TAMBAH POIN
+			scoreManager.AddScore(100);
+			timeManager.AddRemainingTime (0.2f);
 		} else {
 			//TODO KURANGIN POIN DAN KOMBO BREAK
+			scoreManager.AddScore(-100);
+
 		}
 
 		DeactivateState ();
 	}
 
 	void DeactivateState(){
-		if (this.state == RoomStates.kriminal) {
-			this.manager.criminalCount--;
+		if (this.state == RoomStates.CRIME) {
+			this.gameManager.criminalCount--;
 		}
-		image.color = new Color (1.0f, 1.0f, 1.0f);
-		manager.lightsCount--;
+		image.color = Color.white;
+		gameManager.lightsCount--;
+		roomDescription = defaultRoomDescription;
 		this.state = 0;
 	}
 }

@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScoreManager : Singleton<TimeManager> {
-
-	protected ScoreManager () {}
+public class ScoreManager : MonoBehaviour {
 
 	public Text scoreViewer;
 

@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TimeManager : Singleton<TimeManager> {
-
-	protected TimeManager () {}
+public class TimeManager : MonoBehaviour {
 
 	public int initialTime;
 	public Text textViewer;
@@ -36,7 +34,7 @@ public class TimeManager : Singleton<TimeManager> {
 		}
 	}
 
-	public void AddRemainingTime(int addTime) {
+	public void AddRemainingTime(float addTime) {
 		remaining += addTime;
 	}
 
