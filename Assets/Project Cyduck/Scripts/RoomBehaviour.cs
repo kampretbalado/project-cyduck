@@ -40,6 +40,7 @@ public class RoomBehaviour : MonoBehaviour {
 			this.state = RoomStates.NORMAL;
 
 		this.roomDescription = description;
+		// TODO: change the sprite
 		this.image.color = Color.yellow;
 		
 		Invoke ("DeactivateStateAuto", Random.Range (invokeMin, invokeMax));
@@ -48,7 +49,7 @@ public class RoomBehaviour : MonoBehaviour {
 
 	void DeactivateStateAuto(){
 		if (this.state == RoomStates.CRIME) {
-			//TODO combo beak here
+			//TODO combo break here
 		}
 
 		DeactivateState ();
@@ -72,9 +73,13 @@ public class RoomBehaviour : MonoBehaviour {
 		if (this.state == RoomStates.CRIME) {
 			this.gameManager.criminalCount--;
 		}
+		if (this.state != RoomStates.OFF) {
+			gameManager.lightsCount--;
+		}
+
+		// Reset room to default state
 		image.color = Color.white;
-		gameManager.lightsCount--;
 		roomDescription = defaultRoomDescription;
-		this.state = 0;
+		this.state = RoomStates.OFF;
 	}
 }

@@ -16,18 +16,20 @@ public class GameManager : MonoBehaviour {
 
 	//konvensi 0 = mati
 	public RoomBehaviour[] roomList;
-	public float invokeMin;
-	public float invokeMax;
-	public float activeDelay;
+	public float minRoomActiveTime;
+	public float maxRoomActiveTime;
+	public float roomActivationDelay;
 	public int lightsCount = 0;
 	public int criminalCount = 0;
 	public int maxLights = 10;
 
 	private TimeManager timeManager;
+	private ScoreManager scoreManager;
 
 	void Awake() {
 		Time.timeScale = 1.0f;
 		timeManager = GetComponent<TimeManager> ();
+		scoreManager = GetComponent<ScoreManager> ();
 
 		// init the roomList
 		for (int i = 0; i < roomList.Length; i++) {
@@ -46,15 +48,17 @@ public class GameManager : MonoBehaviour {
 		timer += Time.deltaTime;
 
 		RoomBehaviour target = getTarget();
-		if(lightsCount <= maxLights && timer > activeDelay){
+		if(lightsCount <= maxLights && timer > roomActivationDelay){
 			RoomDescription desc = GetRandomRoomDescription ();
-			target.ActivateState (invokeMin, invokeMax, desc);
+			target.ActivateState (minRoomActiveTime, maxRoomActiveTime, desc);
 			timer = 0;
 		}
 			
-		if (timeManager.IsTimeUp ()) {
+		if (timeManager.IsTimeUp () && !guiCanvas.gameObject.activeInHierarchy) {
 			Time.timeScale = 0f;
 			guiCanvas.gameObject.SetActive (true);
+			if (scoreManager.score > PlayerPrefs.GetInt("HighScore", 0))
+				PlayerPrefs.SetInt ("HighScore", scoreManager.score);
 		}
 	}
 

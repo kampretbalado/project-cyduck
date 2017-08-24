@@ -6,11 +6,18 @@ using UnityEngine.UI;
 public class ScoreManager : MonoBehaviour {
 
 	public Text scoreViewer;
+	public Text highScoreViewer;
 
 	private int gameScore;
 	public int score {
 		get {
 			return gameScore;
+		}
+	}
+
+	void Awake() {
+		if (highScoreViewer != null) {
+			highScoreViewer.text = PlayerPrefs.GetInt ("HighScore", 0).ToString();
 		}
 	}
 
