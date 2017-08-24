@@ -27,7 +27,7 @@ public class RoomBehaviour : MonoBehaviour {
 	}
 
 	public void Selected(){
-		if (this.gameManager.selectedDescription != null && this.gameManager.selectedDescription.roomName.Equals(this.roomDescription.roomName)) {
+		if (this.gameManager.selectedDescription != null && this.gameManager.selectedBehaviour == this) {
 			this.DeactivateSelected ();
 		}
 		this.gameManager.Select (this);
